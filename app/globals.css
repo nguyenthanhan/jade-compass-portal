@@ -1,26 +1,232 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Custom Colors */
+  --color-jade-50: #f0fdf4;
+  --color-jade-100: #dcfce7;
+  --color-jade-200: #bbf7d0;
+  --color-jade-300: #86efac;
+  --color-jade-400: #4ade80;
+  --color-jade-500: #22c55e;
+  --color-jade-600: #16a34a;
+  --color-jade-700: #15803d;
+  --color-jade-800: #166534;
+  --color-jade-900: #14532d;
+  --color-jade-950: #052e16;
+  
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-950: #451a03;
+  
+  --color-purple-400: #a78bfa;
+  --color-purple-500: #8b5cf6;
+  --color-purple-600: #7c3aed;
+  --color-purple-700: #6d28d9;
+  --color-purple-800: #5b21b6;
+  --color-purple-900: #4c1d95;
+  --color-purple-950: #2e1065;
+  
+  /* Custom Fonts */
+  --font-pixel: "Press Start 2P", monospace;
+  --font-fantasy: "Cinzel", serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  
+  /* Custom Animations */
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-drift: drift 20s linear infinite;
+  --animate-twinkle: twinkle 3s ease-in-out infinite;
+  --animate-breath: breath 4s ease-in-out infinite;
+  
+  /* Custom Shadows */
+  --shadow-pixel: 0 0 0 2px #000, 0 0 0 4px #22c55e;
+  --shadow-pixel-hover: 0 0 0 2px #000, 0 0 0 4px #4ade80, 0 0 20px rgba(34, 197, 94, 0.5);
+  --shadow-rpg: inset 0 0 0 2px #d97706, inset 0 0 0 4px #000, 0 4px 8px rgba(0, 0, 0, 0.8);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 2 6 23;
+    --foreground: 248 250 252;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-feature-settings: "rlig" 1, "calt" 1;
+    image-rendering: crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: pixelated;
+    background-color: rgb(2 6 23);
+    color: rgb(248 250 252);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-jade-600 rounded-none;
+    border: 2px solid #000;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-jade-500;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Pixel art button styles */
+  .btn-pixel {
+    @apply relative px-6 py-3 font-pixel text-xs uppercase tracking-wider transition-all duration-200;
+    @apply bg-jade-600 text-white shadow-pixel hover:shadow-pixel-hover;
+    @apply hover:scale-105 active:scale-95;
+    image-rendering: pixelated;
+  }
+
+  .btn-pixel-secondary {
+    @apply btn-pixel bg-purple-600;
+  }
+
+  /* Pixel frame for cards and sections */
+  .pixel-frame {
+    @apply relative p-6 bg-slate-900/90 backdrop-blur-sm;
+    @apply border-2 border-jade-500;
+    box-shadow: 
+      0 0 0 2px #000,
+      0 0 0 4px #22c55e,
+      0 8px 16px rgba(0, 0, 0, 0.6);
+  }
+
+  /* RPG dialogue box style */
+  .rpg-box {
+    @apply relative p-8 bg-gradient-to-b from-amber-950/90 to-amber-900/90;
+    @apply shadow-rpg rounded-sm;
+    position: relative;
+  }
+
+  .rpg-box::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #d97706, #fbbf24, #d97706);
+    z-index: -1;
+  }
+
+  /* Glowing text effect */
+  .text-glow {
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+  }
+
+  /* Pixel art image rendering */
+  .pixel-art {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  /* Animated star background */
+  .star-field {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: transparent;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    clip-path: polygon(
+      50% 0%,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+  }
 }
+
+/* Keyframe Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(34, 197, 94, 0.8), 0 0 60px rgba(34, 197, 94, 0.4);
+  }
+}
+
+@keyframes drift {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100vw); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes breath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* Animation utility classes */
+.animate-float { animation: var(--animate-float); }
+.animate-glow { animation: var(--animate-glow); }
+.animate-pulse-slow { animation: var(--animate-pulse-slow); }
+.animate-drift { animation: var(--animate-drift); }
+.animate-twinkle { animation: var(--animate-twinkle); }
+.animate-breath { animation: var(--animate-breath); }
+.animate-bounce { animation: bounce 1s infinite; }
+
+/* Font utility classes */
+.font-pixel { font-family: var(--font-press-start); }
+.font-fantasy { font-family: var(--font-cinzel); }
+.font-sans { font-family: var(--font-inter); }
